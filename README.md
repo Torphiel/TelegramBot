@@ -1,2 +1,2 @@
 # TelegramBot
-Esta es una prueba para aprender como funciona GitHub.
+Bot de Telegram preparado para utilizar la API de Claude.
