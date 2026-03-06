@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from dotenv import load_dotenv
+from bot.claude_handler import ask_claude
 import os
 
 load_dotenv()
@@ -22,9 +23,15 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Por ahora responde con eco, luego conectaremos Claude
     user_message = update.message.text
-    await update.message.reply_text(f"Recibido: {user_message}")
+    
+    # Indicador de que está procesando
+    await update.message.reply_text("⏳ Pensando...")
+    
+    # Llamada a Claude
+    response = ask_claude(user_message)
+    
+    await update.message.reply_text(response)
 
 def run_bot():
     app = Application.builder().token(TELEGRAM_TOKEN).build()
